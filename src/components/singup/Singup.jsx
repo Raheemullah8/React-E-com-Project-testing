@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
-
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
- 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    const auth = getAuth();
+
+    try {
+      // Create user with email and password
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      // Show success message
+      alert('Sign up successful!');
+
+      // Redirect to home page
+      navigate('/'); // Adjust the path as needed
+
+    } catch (error) {
+      // Handle Errors here.
+      setError(error.message);
+    }
+  };
 
   return (
-   
     <div className="flex items-center justify-center mt-10">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Name Field */}
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
@@ -59,7 +83,13 @@ function Signup() {
             />
           </div>
 
-         
+          {error && (
+            <div className="mb-4 text-red-600">{error}</div>
+          )}
+
+          {success && (
+            <div className="mb-4 text-green-600">{success}</div>
+          )}
 
           <button
             type="submit"
@@ -67,12 +97,9 @@ function Signup() {
           >
             Sign Up
           </button>
-
-         
         </form>
       </div>
     </div>
-
   );
 }
 

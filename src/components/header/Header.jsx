@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ThemeProvider } from '../../themeContext/ThemeContext';
 import Theme from '../themeChang/Theme';
+import Logout from '../logout/Logout';
 
 
 const Header = () => {
@@ -74,6 +75,12 @@ const Header = () => {
             Signup
           </button>
           </NavLink>
+          <NavLink to='logout'>
+          <button className="bg-red-600  text-white px-4 py-2 rounded-lg font-semibold text-lg">
+            Logout
+          </button>
+          </NavLink>
+        
           <Theme />
          
         </div>
